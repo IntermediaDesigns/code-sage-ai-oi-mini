@@ -22,7 +22,7 @@ Please format your response in the following way:
 4. Best Practices: [List any best practices that could be applied]`;
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4",  // Changed from "gpt-4o-mini" to "gpt-4"
       messages: [{ role: "user", content: prompt }],
     });
 

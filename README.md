@@ -1,52 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Code Sage AI - Deployment Instructions
 
-## Getting Started
+## Recent Changes
 
-First, run the development server:
+We've made several changes to improve the deployment process and address the issue with the missing routes-manifest.json file:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Updated `package.json` with new scripts:
+   - Added a `vercel-build` script that runs linting before building.
+   - Added a `postinstall` script to ensure the project is built after dependencies are installed.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Updated `vercel.json` with more specific configurations:
+   - Specified the use of the custom `vercel-build` command.
+   - Added environment variable configurations.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Updated `next.config.mjs` with additional configurations:
+   - Enabled `reactStrictMode`.
+   - Added experimental `serverActions` support.
+   - Included a `rewrites` function for API routes.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment Steps
 
-## OpenAI Integration
+To deploy this project on Vercel:
 
-This project now uses OpenAI's GPT model for code analysis. To set up the OpenAI integration:
+1. Ensure all changes are committed and pushed to your GitHub repository.
 
-1. Sign up for an OpenAI account and obtain an API key from the [OpenAI dashboard](https://platform.openai.com/account/api-keys).
-2. Create a `.env.local` file in the root directory of the project.
-3. Add your OpenAI API key to the `.env.local` file:
+2. Log in to your Vercel account and navigate to your project.
 
+3. If you're creating a new deployment:
+   - Click "Add New" > "Project"
+   - Select the repository containing this project
+   - Vercel should automatically detect it as a Next.js project
+
+4. In the project settings, ensure the following environment variables are set:
+   - `NEXT_PUBLIC_CONVEX_URL`
+   - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+   - `OPENAI_API_KEY`
+   - `CLERK_SECRET_KEY`
+
+5. Deploy the project.
+
+6. Once the deployment is complete, Vercel will provide you with a URL to access your application.
+
+If you encounter any issues during deployment, check the build logs in the Vercel dashboard for error messages or warnings.
+
+## Local Development
+
+To run the project locally:
+
+1. Install dependencies:
    ```
-   OPENAI_API_KEY=your_api_key_here
+   npm install
    ```
 
-4. Restart your development server for the changes to take effect.
+2. Run the development server:
+   ```
+   npm run dev
+   ```
 
-Make sure to keep your API key confidential and never commit it to version control.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-## Learn More
+## Troubleshooting
 
-To learn more about Next.js, take a look at the following resources:
+If you continue to encounter issues with the routes-manifest.json file, try the following:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clear the Vercel project cache and redeploy.
+2. Ensure all environment variables are correctly set in the Vercel project settings.
+3. Check that the project's dependencies are up to date, especially Next.js and related packages.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If problems persist, review the Vercel build logs for any specific error messages or warnings that may provide additional insight into the issue.
