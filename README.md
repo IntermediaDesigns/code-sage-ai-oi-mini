@@ -20,6 +20,22 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## OpenAI Integration
+
+This project now uses OpenAI's GPT model for code analysis. To set up the OpenAI integration:
+
+1. Sign up for an OpenAI account and obtain an API key from the [OpenAI dashboard](https://platform.openai.com/account/api-keys).
+2. Create a `.env.local` file in the root directory of the project.
+3. Add your OpenAI API key to the `.env.local` file:
+
+   ```
+   OPENAI_API_KEY=your_api_key_here
+   ```
+
+4. Restart your development server for the changes to take effect.
+
+Make sure to keep your API key confidential and never commit it to version control.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

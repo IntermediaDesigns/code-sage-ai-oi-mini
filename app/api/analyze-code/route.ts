@@ -1,7 +1,7 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from "openai";
 import { NextResponse } from "next/server";
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req: Request) {
   try {
@@ -10,8 +10,6 @@ export async function POST(req: Request) {
     if (!code || !language) {
       return NextResponse.json({ error: 'Missing code or language' }, { status: 400 });
     }
-
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const prompt = `Analyze the following ${language} code and provide suggestions for improvement, potential bugs, and best practices:
 
@@ -23,11 +21,14 @@ Please format your response in the following way:
 3. Suggestions for Improvement: [List suggestions]
 4. Best Practices: [List any best practices that could be applied]`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const completion = await openai.chat.completions.create({
+      model: "o1-mini",
+      messages: [{ role: "user", content: prompt }],
+    });
 
-    return NextResponse.json({ analysis: text });
+    const analysis = completion.choices[0].message.content;
+
+    return NextResponse.json({ analysis });
   } catch (error) {
     console.error('Error analyzing code:', error);
     return NextResponse.json({ error: 'Failed to analyze code' }, { status: 500 });
